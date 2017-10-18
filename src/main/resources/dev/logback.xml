@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+	<property name="PROJECT_NAME" value="gve" />
+	
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %X{ip}%logger{50} - %msg%n</pattern>
+		</layout>
+	</appender>
+
+	<appender name="FILE-INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>./${PROJECT_NAME}/%d{yyyy-MM-dd}/${PROJECT_NAME}.info.%d{yyyyMMdd}.log
+			</FileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %X{ip}%logger{50} - %msg%n</pattern>
+		</layout>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>10MB</MaxFileSize>
+		</triggeringPolicy>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+	<appender name="FILE-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>./${PROJECT_NAME}/%d{yyyy-MM-dd}/${PROJECT_NAME}.error.%d{yyyyMMdd}.log
+			</FileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %X{ip}%logger{50} - %msg%n</pattern>
+		</layout>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>10MB</MaxFileSize>
+		</triggeringPolicy>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+    <logger name="com.gve" additivity="true" level="INFO"/>
+    <logger name="org.hibernate.type" additivity="true" level="ERROR"/> 
+    <logger name="org.hibernate.SQL" additivity="true" level="ERROR"/> 
+    <logger name="com.alibaba.druid" additivity="true" level="DEBUG"/>
+    
+    <logger name="com.gve.vcs.data.mapper" level="DEBUG"/>
+    
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE-ERROR" />
+		<appender-ref ref="FILE-INFO" />
+    </root> 
+     
+</configuration>
